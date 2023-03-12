@@ -104,20 +104,21 @@ int main()
         }
         sysout(a, y, n);
         cout << "The solution of this equation is: " << endl;
-        x = gauss(a, y, n);
-        for (int i = 0; i < n; i++)
+        if (gauss(a, y, n) != 0)
         {
-            if (typeid(x[i]) == typeid(double))
+            x = gauss(a, y, n);
+            for (int i = 0; i < n; i++)
             {
-                cout << "=> "
-                     << "x[" << i + 1 << "]=" << x[i] << endl;
+                if (typeid(x[i]) == typeid(double))
+                {
+                    cout << "=> "
+                         << "x[" << i + 1 << "]=" << x[i] << endl;
+                }
             }
         }
-        cin.get();
-        cin.get();
         return 0;
         file.close();
-    }
+        }
     else if (chosse == 2)
     {
         double **a, *y, *x;
@@ -141,13 +142,16 @@ int main()
         }
         sysout(a, y, n);
         cout << "The solution of this equation is: " << endl;
-        x = gauss(a, y, n);
-        for (int i = 0; i < n; i++)
+        if (gauss(a, y, n) != 0)
         {
-            if (typeid(x[i]) == typeid(double))
+            x = gauss(a, y, n);
+            for (int i = 0; i < n; i++)
             {
-                cout << "=> "
-                     << "x[" << i + 1 << "]=" << x[i] << endl;
+                if (typeid(x[i]) == typeid(double))
+                {
+                    cout << "=> "
+                         << "x[" << i + 1 << "]=" << x[i] << endl;
+                }
             }
         }
         cin.get();
