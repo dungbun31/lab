@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 void sysout(double **a, double *y, int n)
@@ -15,6 +16,7 @@ void sysout(double **a, double *y, int n)
     }
     return;
 }
+
 double *gauss(double **a, double *y, int n)
 {
     double *x, max;
@@ -24,7 +26,6 @@ double *gauss(double **a, double *y, int n)
     k = 0;
     while (k < n)
     {
-
         max = abs(a[k][k]);
         index = k;
         for (int i = k + 1; i < n; i++)
@@ -35,14 +36,12 @@ double *gauss(double **a, double *y, int n)
                 index = i;
             }
         }
-
         if (max < eps)
         {
             cout << "the equation has no solution " << endl
                  << "=> x = no solution";
             return 0;
         }
-
         for (int j = 0; j < n; j++)
         {
             double temp = a[k][j];
@@ -52,7 +51,6 @@ double *gauss(double **a, double *y, int n)
         double temp = y[k];
         y[k] = y[index];
         y[index] = temp;
-
         for (int i = k; i < n; i++)
         {
             double temp = a[i][k];
@@ -78,34 +76,82 @@ double *gauss(double **a, double *y, int n)
     }
     return x;
 }
+
 int main()
 {
-    double **a, *y, *x;
-    int n;
-    cout << "Enter number of equations: ";
-    cin >> n;
-    a = new double *[n];
-    y = new double[n];
-    for (int i = 0; i < n; i++)
+    int chosse;
+    cout << " Please choose your option: " << endl
+         << "1. import data from file" << endl
+         << "2. input data from the keyboard" << endl;
+    cin >> chosse;
+    if (chosse == 1)
     {
-        cout << "equation number " << i + 1 << endl;
-        a[i] = new double[n];
-        for (int j = 0; j < n; j++)
+        ifstream file;
+        file.open("input.txt");
+        double **a, *y, *x;
+        int n;
+        file >> n;
+        a = new double *[n];
+        y = new double[n];
+        for (int i = 0; i < n; i++)
         {
-            cout << "x" << j + 1 << " = ";
-            cin >> a[i][j];
+            a[i] = new double[n];
+            for (int j = 0; j < n; j++)
+            {
+                file >> a[i][j];
+            }
+            file >> y[i];
         }
-        cout << "y" << i + 1 << " = ";
-        cin >> y[i];
-    }
-    sysout(a, y, n);
-    cout << "The solution of this equation is: " << endl;
-    x = gauss(a, y, n);
-    for (int i = 0; i < n; i++)
-        if (x[i] = true)
+        sysout(a, y, n);
+        cout << "The solution of this equation is: " << endl;
+        x = gauss(a, y, n);
+        for (int i = 0; i < n; i++)
         {
-            cout << "=> "
-                 << "x[" << i + 1 << "]=" << x[i] << endl;
-        };
-    return 0;
+            if (typeid(x[i]) == typeid(double))
+            {
+                cout << "=> "
+                     << "x[" << i + 1 << "]=" << x[i] << endl;
+            }
+        }
+        cin.get();
+        cin.get();
+        return 0;
+        file.close();
+    }
+    else if (chosse == 2)
+    {
+        double **a, *y, *x;
+        int n;
+        system("cls");
+        cout << "Enter number of equations: ";
+        cin >> n;
+        a = new double *[n];
+        y = new double[n];
+        for (int i = 0; i < n; i++)
+        {
+            cout << "equation number " << i + 1 << endl;
+            a[i] = new double[n];
+            for (int j = 0; j < n; j++)
+            {
+                cout << "x" << j + 1 << " = ";
+                cin >> a[i][j];
+            }
+            cout << "y" << i + 1 << " = ";
+            cin >> y[i];
+        }
+        sysout(a, y, n);
+        cout << "The solution of this equation is: " << endl;
+        x = gauss(a, y, n);
+        for (int i = 0; i < n; i++)
+        {
+            if (typeid(x[i]) == typeid(double))
+            {
+                cout << "=> "
+                     << "x[" << i + 1 << "]=" << x[i] << endl;
+            }
+        }
+        cin.get();
+        cin.get();
+        return 0;
+    }
 }
